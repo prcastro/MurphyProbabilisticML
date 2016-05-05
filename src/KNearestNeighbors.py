@@ -1,6 +1,6 @@
 import numpy as np
-from scipy import stats
 from statistics import mode
+
 
 class KNearestNeighbors():
     def __init__(self, K):
@@ -10,9 +10,17 @@ class KNearestNeighbors():
         self.X = X
         self.y = y
 
-    def predict(self, x):
+    def _predict_point(self, x):
         k_indexes = self._k_nearest_neighbors(x)
         return mode(list(self.y[k_indexes]))
+
+    def predict(self, x):
+        if len(x.shape) == 1:
+            return self._predict_point(x)
+        elif len(x.shape) == 2:
+            return np.array([self._predict_point(x_i) for x_i in x])
+        else:
+            raise ValueError
 
     def _distance(self, x, y):
         return np.linalg.norm(x-y)
@@ -20,6 +28,6 @@ class KNearestNeighbors():
     def _k_nearest_neighbors(self, x):
         distances = np.array([self._distance(x, xi) for xi in self.X])
         ordered_indexes = np.array([x[0] for x in sorted(enumerate(distances),
-                                                         key = lambda x: x[1])])
+                                                         key=lambda x: x[1])])
         k_nearest_neighbors_indexes = ordered_indexes[0: self.K]
         return k_nearest_neighbors_indexes
