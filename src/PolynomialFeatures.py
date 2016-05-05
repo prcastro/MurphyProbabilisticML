@@ -1,8 +1,8 @@
 import numpy as np
 
 class PolynomialFeatures():
-    def __init__(self):
-        pass
+    def __init__(self, n):
+        self.n = n
 
-    def transform(self, X):
-        pass
+    def fit_transform(self, X):
+        return np.hstack([X**i for i in range(1, self.n +1)])

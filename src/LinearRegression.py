@@ -8,7 +8,7 @@ class LinearRegression():
         self.W = np.linalg.pinv(X.T @ X) @ (X.T @ y) # the @ operator calls __matmul__
 
     def _predict_point(self, x):
-        return self.W.dot(x)
+        return self.W.T @ x 
 
     def predict(self, x):
         if len(x.shape) == 1:
