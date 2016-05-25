@@ -15,7 +15,6 @@ class LinearRegression():
         return self.W.T @ x
 
     def predict(self, X):
-        
         if len(X.shape) == 1:
             return self._predict_point(X)
         elif len(X.shape) == 2:
