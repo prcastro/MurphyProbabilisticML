@@ -17,6 +17,7 @@ class LogisticRegression():
         return 0
 
     def _predict_proba(self, X):
+        print("Dot product:" + str(X @ self.w))
         prob_class_1 = self._sigmoid(X @ self.w)
         return np.hstack((prob_class_1, 1 - prob_class_1))
 
@@ -43,8 +44,12 @@ class LogisticRegression():
                 return w
             w = w_new
         return w
+        
     def fit(self, X, y):
         bias = np.ones((X.shape[0], 1))
         X = np.hstack((bias, X))
-        self.w = np.random.rand(X.shape[1],1)
+        try: # Check for existence of the weight vector
+            self.w
+        except NameError:
+            self.w = np.random.rand(X.shape[1],1)
         self.w = self._gradientdescent(self.w, self.learnrate, lambda w : self._gradientloss(w, X, y), self.eps)
