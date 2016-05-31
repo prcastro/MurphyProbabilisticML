@@ -2,9 +2,10 @@ import numpy as np
 
 
 class LogisticRegression():
-    def __init__(self, learnrate=0.01, eps=0.1):
+    def __init__(self, learnrate=0.01, eps=0.001, maxiter = 2000000):
         self.learnrate = learnrate
         self.eps = eps
+        self.maxiter = maxiter
 
     def _sigmoid(self, x):
         return 1.0 / (1 + np.exp(-x))
@@ -36,12 +37,12 @@ class LogisticRegression():
 
     def _gradientdescent(self, w0, learnrate, grad, eps):
         w = w0
-        while True:
+        for i in range(self.maxiter):
             w_new = w - learnrate * grad(w)
             if np.linalg.norm(w_new - w) < eps:
                 return w
             w = w_new
-
+        return w
     def fit(self, X, y):
         bias = np.ones((X.shape[0], 1))
         X = np.hstack((bias, X))
