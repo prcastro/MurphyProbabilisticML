@@ -44,12 +44,12 @@ class LogisticRegression():
                 return w
             w = w_new
         return w
-        
+
     def fit(self, X, y):
         bias = np.ones((X.shape[0], 1))
         X = np.hstack((bias, X))
         try: # Check for existence of the weight vector
             self.w
-        except NameError:
+        except AttributeError:
             self.w = np.random.rand(X.shape[1],1)
         self.w = self._gradientdescent(self.w, self.learnrate, lambda w : self._gradientloss(w, X, y), self.eps)
